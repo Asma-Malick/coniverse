@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login Page</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="login-box">
+      <h2>Login</h2>
+      <form action="/api/register" method="POST" enctype="multipart/form-data">
+        <div class="input-box">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Enter your name" required />
+        </div>
+        <div class="input-box">
+          <label for="email">Mail ID</label>
+          <input type="email" id="email" name="email" placeholder="Enter your mail id" required />
+        </div>
+        <div class="input-box">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required />
+        </div>
+        <div class="input-box">
+          <label for="id-card">ID Card (Upload Photo)</label>
+          <input type="file" id="id-card" name="id-card" accept="image/*" required />
+        </div>
+        
+        <!-- Camera Capture Section -->
+        <div class="input-box">
+          <label for="capture-photo">Capture Your Photo</label>
+          <video id="video" autoplay></video>
+          <button type="button" onclick="captureImage()">Capture</button>
+          <canvas id="canvas" style="display:none;"></canvas>
+          <input type="hidden" name="capturedImage" id="capturedImage">
+        </div>
+
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Open Webcam
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function(stream) {
+        document.getElementById('video').srcObject = stream;
+      })
+      .catch(function(err) {
+        console.log("Camera access denied: ", err);
+      });
+
+    // Capture Image & Convert to Base64
+    function captureImage() {
+      let video = document.getElementById('video');
+      let canvas = document.getElementById('canvas');
+      let context = canvas.getContext('2d');
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      let imageData = canvas.toDataURL('image/png'); // Convert to Base64
+      document.getElementById('capturedImage').value = imageData;
+    }
+  </script>
+</body>
+</html>

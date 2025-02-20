@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High 5</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            background-color: black;
+            color: white;
+        }
+
+        hr {
+            width: 500px;
+        }
+
+        #board {
+            width: 400px;
+            height: 400px;
+            background-color: #cdc1b5;
+            border: 6px solid #bbada0;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .tile {
+            width: 90px;
+            height: 90px;
+            border: 5px solid #bbada0;
+            font-size: 40px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            color: white;
+        }
+
+        /* colored tiles */
+        .x5, .x10, .x20, .x40, .x80, .x160, .x320, .x640, .x1280, .x2560, .x5120, .x10240 {
+            background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            color: white;
+        }
+
+        h1 {
+            font-weight: bold;
+            font-style: italic;
+            text-shadow: 2px 2px 5px #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 img {
+            margin-left: 10px;
+            width: 450px;
+            height: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1><img src="high5.png" alt="5five Icon"><img src="coniverse.png" alt="Cute Icon"></h1>
+    <hr>
+    <h2>Score: <span id="score">0</span></h2>
+    <div id="board">
+    </div>
+
+    <audio id="bg-music" src="Starboy - The Weeknd-[AudioTrimmer.com].mp3" loop></audio>
+    <audio id="move-sound" src="Starboy - The Weeknd-[AudioTrimmer.com].mp3"></audio>
+
+    <script>
+        var board;
+        var score = 0;
+        var rows = 4;
+        var columns = 4;
+        var moveSound = document.getElementById("move-sound");
+        var bgMusic = document.getElementById("bg-music");
+
+        window.onload = function() {
+            setGame();
+            bgMusic.play();
+        }
+
+        function setGame() {
+            board = [
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0]
+            ];
+
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < columns; c++) {
+                    let tile = document.createElement("div");
+                    tile.id = r.toString() + "-" + c.toString();
+                    let num = board[r][c];
+                    updateTile(tile, num);
+                    document.getElementById("board").append(tile);
+                }
+            }
+            setFive();
+            setFive();
+        }
+
+        function updateTile(tile, num) {
+            tile.innerText = "";
+            tile.classList.value = ""; //clear the classList
+            tile.classList.add("tile");
+            if (num > 0) {
+                tile.innerText = num.toString();
+                tile.classList.add("x" + num.toString());
+            }
+        }
+
+        document.addEventListener('keyup', (e) => {
+            if (e.code == "ArrowLeft") {
+                slideLeft();
+                setFive();
+            } else if (e.code == "ArrowRight") {
+                slideRight();
+                setFive();
+            } else if (e.code == "ArrowUp") {
+                slideUp();
+                setFive();
+            } else if (e.code == "ArrowDown") {
+                slideDown();
+                setFive();
+            }
+            document.getElementById("score").innerText = score;
+        })
+
+        function filterZero(row) {
+            return row.filter(num => num != 0); //create new array of all nums != 0
+        }
+
+        function slide(row) {
+            row = filterZero(row);
+            for (let i = 0; i < row.length - 1; i++) {
+                if (row[i] == row[i + 1]) {
+                    row[i] *= 5;
+                    row[i + 1] = 0;
+                    score += row[i];
+                }
+            }
+            row = filterZero(row);
+            while (row.length < columns) {
+                row.push(0);
+            }
+            return row;
+        }
+
+        function slideLeft() {
+            for (let r = 0; r < rows; r++) {
+                let row = board[r];
+                row = slide(row);
+                board[r] = row;
+                for (let c = 0; c < columns; c++) {
+                    let tile = document.getElementById(r.toString() + "-" + c.toString());
+                    let num = board[r][c];
+                    updateTile(tile, num);
+                }
+            }
+            playMoveSound();
+        }
+
+        function slideRight() {
+            for (let r = 0; r < rows; r++) {
+                let row = board[r];
+                row.reverse();
+                row = slide(row);
+                board[r] = row.reverse();
+                for (let c = 0; c < columns; c++) {
+                    let tile = document.getElementById(r.toString() + "-" + c.toString());
+                    let num = board[r][c];
+                    updateTile(tile, num);
+                }
+            }
+            playMoveSound();
+        }
+
+        function slideUp() {
+            for (let c = 0; c < columns; c++) {
+                let row = [board[0][c], board[1][c], board[2][c], board[3][c]];
+                row = slide(row);
+                for (let r = 0; r < rows; r++) {
+                    board[r][c] = row[r];
+                    let tile = document.getElementById(r.toString() + "-" + c.toString());
+                    let num = board[r][c];
+                    updateTile(tile, num);
+                }
+            }
+            playMoveSound();
+        }
+
+        function slideDown() {
+            for (let c = 0; c < columns; c++) {
+                let row = [board[0][c], board[1][c], board[2][c], board[3][c]];
+                row.reverse();
+                row = slide(row);
+                row.reverse();
+                for (let r = 0; r < rows; r++) {
+                    board[r][c] = row[r];
+                    let tile = document.getElementById(r.toString() + "-" + c.toString());
+                    let num = board[r][c];
+                    updateTile(tile, num);
+                }
+            }
+            playMoveSound();
+        }
+
+        function setFive() {
+            if (!hasEmptyTile()) {
+                return;
+            }
+            let found = false;
+            while (!found) {
+                let r = Math.floor(Math.random() * rows);
+                let c = Math.floor(Math.random() * columns);
+                if (board[r][c] == 0) {
+                    board[r][c] = 5;
+                    let tile = document.getElementById(r.toString() + "-" + c.toString());
+                    updateTile(tile, 5); // Directly update tile with 5
+                    found = true;
+                }
+            }
+        }
+
+        function hasEmptyTile() {
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < columns; c++) {
+                    if (board[r][c] == 0) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function playMoveSound() {
+            moveSound.play();
+        }
+    </script>
+
+   <h2> <b><p>This game is created to improve the concentration power of students and individuals. The adaptive tunes keep them engaged.</p>
+   </b></h2>
+</body>
+</html>

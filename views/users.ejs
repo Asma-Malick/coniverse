@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User List</title>
+</head>
+<body>
+  <h1>All Registered Users</h1>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Image</th>
+        <th>ID Card</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(user => { %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td>
+            <% if (user.image && user.image !== '') { %>
+              <img src="data:image/jpeg;base64,<%= user.image.toString('base64') %>" alt="User Image" width="100" />
+            <% } else { %>
+              <p>No image available</p>
+            <% } %>
+          </td>
+          <td>
+            <% if (user.id_card && user.id_card !== '') { %>
+              <img src="/uploads/<%= user.id_card.split('/').pop() %>" alt="ID Card" width="100" />
+            <% } else { %>
+              <p>No ID card available</p>
+            <% } %>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</body>
+</html>

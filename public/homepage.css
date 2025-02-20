@@ -1,0 +1,73 @@
+body {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* Navbar Styling */
+.navbar {
+  background-color: #000000;
+}
+
+.navbar-nav .nav-link {
+  color: #ffffff;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ffffff;
+}
+
+/* Carousel Styling */
+.carousel-item img {
+  height: 400px;
+  object-fit: cover;
+  opacity: 50%;
+}
+
+.carousel-caption h3, .carousel-caption p {
+  color: #ffffff;
+}
+
+/* Post Feed Styling */
+.post-card {
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  transition: transform 0.2s ease;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.post-card:hover {
+  transform: scale(1.05);
+}
+
+.post-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+/* New Post Form */
+.new-post-form {
+  background-color: #000000;
+  padding: 20px 0;
+}
+
+.image-upload {
+  margin-top: 10px;
+  padding: 5px;
+  color: #ffffff;
+}
+
+/* Footer Styling */

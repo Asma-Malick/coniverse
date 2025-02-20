@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coniverse - User Feedback</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.min.css" rel="stylesheet"> <!-- SweetAlert2 CSS -->
+    <style>
+        body {
+            background-image: url("doodle.jpg"); /* Add your background image here */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #ffffff;
+        }
+
+        .feedback-form {
+            background-color: rgba(17, 17, 17, 0.9); /* Slightly lighter black for form background with transparency */
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px; /* Add some top margin */
+        }
+
+        .form-label {
+            color: #eee; /* Slightly lighter white for labels */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Example - Customize your button color */
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+        .feedback-title {
+            font-weight: bold;
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feedback-title img {
+            width: 300px; /* Adjust the width as needed */
+            height: 100px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="feedback-form">
+                    <h2 class="feedback-title">
+                        <img src="image-removebg-preview (1).png" alt="Coniverse Logo"> <!-- Add your logo image here -->
+                        User Experience Feedback
+                    </h2>
+                    <form id="feedbackForm">
+                        <div class="mb-3">
+                            <label for="rating" class="form-label">Overall Experience:</label>
+                            <select class="form-select" id="rating" required>
+                                <option value="">Select a rating</option>
+                                <option value="5">Excellent</option>
+                                <option value="4">Good</option>
+                                <option value="3">Average</option>
+                                <option value="2">Poor</option>
+                                <option value="1">Very Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="features" class="form-label">Favorite Features:</label>
+                            <input type="text" class="form-control" id="features">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="improvements" class="form-label">Areas for Improvement:</label>
+                            <textarea class="form-control" id="improvements" rows="3"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="comments" class="form-label">Additional Comments:</label>
+                            <textarea class="form-control" id="comments" rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 JS -->
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from actually submitting
+
+            // Get form values
+            const rating = document.getElementById('rating').value;
+            const features = document.getElementById('features').value;
+            const improvements = document.getElementById('improvements').value;
+            const comments = document.getElementById('comments').value;
+
+            // Here you would typically send the feedback data to your server
+            // using fetch or XMLHttpRequest.  For this example, we'll just
+            // log the data to the console.
+            console.log("Feedback submitted:", {
+                rating,
+                features,
+                improvements,
+                comments
+            });
+
+            // Reset the form (optional)
+            document.getElementById('feedbackForm').reset();
+
+            // Provide user feedback using SweetAlert2
+            Swal.fire({
+                title: 'Thank you for your feedback!',
+                text: 'Your feedback has been submitted successfully.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        });
+    </script>
+
+</body>
+</html>

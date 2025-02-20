@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coniverse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+             color: #0b0a0a;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav li {
+            margin: 0 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-size: 1.2em;
+            background: linear-gradient(to right, #D0A8E2, #E6BCCD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav a i {
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+
+        nav a:hover {
+            background: linear-gradient(to right, #E6BCCD, #D0A8E2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .coniverse-logo {
+            width: 250px; /* Adjust the width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        .content-wrapper {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .content-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .content-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .content {
+            color: black;
+            padding: 20px;
+            background: linear-gradient(to right, #ffcccb, #ffb6c1);
+            font-size: 1.1em;
+            position: relative;
+            z-index: 1;
+            margin: 0 auto;
+        }
+
+        .content h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.5em;
+        }
+
+        .scrolling-message {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 1.2em;
+            white-space: nowrap;
+            overflow: hidden;
+            font-family: 'Arial Black', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            text-shadow:
+                0 0.05em 0.1em rgba(0, 0, 0, 0.2),
+                0.1em 0.15em 0 rgba(0, 0, 0, 0.1),
+                0.2em 0.25em 0 rgba(0, 0, 0, 0.1),
+                0.3em 0.35em 0 rgba(0, 0, 0, 0.1);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .scrolling-message span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: scroll 10s linear infinite;
+            background-image: linear-gradient(to right, #f59ac1, #e4aef8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transform: rotateX(-10deg) rotateY(5deg) translateZ(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .scrolling-message span:hover {
+            transform: rotateX(-15deg) rotateY(10deg) translateZ(30px);
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .chatbot-container {
+            background: linear-gradient(to right, #000000, #D0A8E2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 300px;
+            text-align: center;
+        }
+
+        .chatbot-header {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .chatbot-messages {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        .chatbot-input {
+            display: flex;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .chatbot-input button {
+            padding: 10px;
+            border: none;
+            background-color: #D0A8E2;
+            color: black;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .chatbot-input button:hover {
+            background-color: #E6BCCD;
+        }
+
+        .side-menu {
+            position: fixed;
+            right: 0;
+            top: 150px;
+            width: 200px;
+            background-color: rgba(255, 204, 203, 0.8);
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-menu a {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #cd3232;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .side-menu a:hover {
+            background-color: #228B22;
+            transform: translateY(-3px);
+        }
+
+        .side-menu a i {
+            margin-right: 5px;
+        }
+
+        .navbar {
+            background-color: #333333;
+        }
+
+        .navbar-nav .nav-link {
+            color: #030303;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #090909;
+        }
+
+        .carousel-item img {
+width: 50%;
+            height: 400px;
+            object-fit: cover;
+            opacity: 50%;
+        }
+
+        .carousel-caption h3, .carousel-caption p {
+            color: #ffffff;
+        }
+
+        .post-card {
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: transform 0.2s ease;
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        .post-card:hover {
+            transform: scale(1.05);
+        }
+
+        .post-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            font-size: 0.9rem;
+            color: #ffffff;
+        }
+
+        .new-post-form {
+            background-color: #000000;
+            padding: 20px 0;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .image-upload {
+            margin-top: 10px;
+            padding: 5px;
+            color: #ffffff;
+        }
+
+        .feed {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .content-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .gamebutton1 {
+    position: absolute;
+    left: 20px; /* Keeps it on the left */
+    top: 190%;
+    transform: translateY(-50%);
+}
+
+.gamebutton1 button {
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+    border: 2px solid transparent;
+}
+
+.gamebutton1 button a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+}
+
+.gamebutton1 button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    border: 2px solid white;
+}
+.gamebutton {
+    position: absolute;
+    left: 20px; /* Keeps it on the left */
+    top: 200%;
+    transform: translateY(-50%);
+}
+
+.gamebutton button {
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+    border: 2px solid transparent;
+}
+
+.gamebutton button a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+}
+
+.gamebutton button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    border: 2px solid rgb(0, 217, 255);
+}
+.gamebutton2 {
+    position: absolute;
+    left: 20px; /* Keeps it on the left */
+    top: 180%;
+    transform: translateY(-50%);
+}
+
+.gamebutton2 button {
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+    border: 2px solid transparent;
+}
+
+.gamebutton2 button a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+}
+
+.gamebutton2 button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    border: 2px solid rgb(0, 217, 255);
+}
+footer { 
+    color: white; /* White text */
+    padding: 15px 0; /* Spacing inside the footer */
+    font-size: 14px; /* Adjust font size */
+    text-align: center; /* Center-align text */
+    position: relative; /* Keep it at the bottom */
+    width: 100%; /* Full width */
+}
+
+footer p {
+    margin: 0; /* Remove default margin */
+    line-height: 1.5; /* Improve readability */
+}
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="dark coniverse.png" class="coniverse-logo"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Clubs.html"><i class="fas fa-users"></i> Clubs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Events.html"><i class="fas fa-calendar-alt"></i> Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="updates.html"><i class="fas fa-bell"></i> Updates</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="jobportal.html"><i class="fas fa-briefcase"></i> Jobs Portal</a>
+                    </li>
+                </ul>
+                <form class="d-flex ms-auto">
+                    <!-- Bootstrap Search Bar -->
+                        <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="button" onclick="searchAndHighlight()">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="side-menu">
+        <a href="https://www.kaggle.com" target="_blank"><i class="fas fa-database"></i>Kaggle</a>
+        <a href="https://dribbble.com" target="_blank"><i class="fas fa-basketball-ball"></i>Dribbble</a>
+        <a href="https://www.glassdoor.com" target="_blank"><i class="fas fa-briefcase"></i>Glassdoor</a>
+        <a href="https://roadmap.sh" target="_blank"><i class="fas fa-map"></i>Roadmap.sh</a>
+        <a href="https://openai.com" target="_blank"><i class="fas fa-brain"></i>Open AI</a>
+        <a href="https://gemini.google.com/" target="_blank"><i class="fas fa-gem"></i>Gemini AI</a>
+        <a href="https://github.com/features/copilot" target="_blank"><i class="fas fa-robot"></i>GitHub Copilot</a>
+        <a href="https://www.canva.com" target="_blank"><i class="fas fa-palette"></i>Canva</a>
+        <a href="https://www.adobe.com/express" target="_blank"><i class="fas fa-image"></i>Adobe Express</a>
+        <a href="https://www.geeksforgeeks.org" target="_blank"><i class="fas fa-graduation-cap"></i>GeeksforGeeks</a>
+        <a href="https://www.shutterstock.com" target="_blank"><i class="fas fa-camera"></i>Shutterstock</a>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="content-background">
+            <img src="C:\Users\God\Downloads\homepage\doodle.jpg" alt="Background Image" class="background-image">
+        </div>
+        <div class="content">
+            <h1>Welcome to Coniverse</h1>
+            <p>Connect, engage, and grow. 
+              <br>  Unlock your potential and level up your network with our student-centric platform.
+               <br>  Building your future, one connection at a time.
+                <br>#Coniverse #StudentNetwork</p>
+        </div>
+    </div>
+
+    <!-- Image Carousel -->
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="event.jpg" class="d-block w-100" alt="Second slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Interactive Events</h3>
+                    <p>Stay updated with exciting student events!</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="journey.jpg" class="d-block w-100" alt="Third slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Share Your Journey</h3>
+                    <p>Post your experiences and receive feedback.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Post Feed -->
+    <main class="feed mt-4">
+        <div class="container">
+            <div class="row" id="post-feed"></div>
+        </div>
+    </main>
+
+    <!-- New Post Form -->
+    <div class="new-post-form mt-4">
+        <div class="container">
+            <div class="input-group mb-3">
+                <textarea class="form-control" placeholder="What's on your mind?" id="newPostContent"></textarea>
+                <button class="btn btn-primary" id="postSubmit">Post</button>
+            </div>
+            <input type="file" id="imageUpload" class="form-control mt-2">
+        </div>
+    </div>
+
+    <div class="scrolling-message">
+        <span> From Campus to Career, Coniverse is Here.</span>
+    </div>
+
+    <!-- Chatbot -->
+    <div class="chatbot-container">
+        <div class="chatbot-header"><i class="fas fa-robot"></i> Chat with Coniverse Bot</div>
+        <div class="chatbot-messages" id="chatbot-messages"></div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <div class="gamebutton2">
+        <button><a href="userfeedback.html">Feedback Form</a></button>
+    </div>
+    <div class="gamebutton1">
+        <button><a href="share.html">Simulator</a></button>
+    </div>
+    <div class="gamebutton">
+        <button><a href="high5.html">Game Play</a></button>
+    </div>
+
+    <footer class="text-center mt-4">
+        <p>&copy; 2025 Coniverse. All rights reserved.</p>
+        <br>
+        <br>
+    </footer>
+
+    <script>
+        const postsData = [
+            { name: "John Doe", content: "Excited about the upcoming AI workshop at MIT! 🚀", time: "10 mins ago", likes: 10, comments: ["Looks amazing!", "Wish I could join!"], image: null },
+            { name: "Jane Smith", content: "Join our design club for amazing collaborations! 🎨", time: "30 mins ago", likes: 5, comments: ["I am in!", "Count me in!"], image: null },
+            { name: "Alice Johnson", content: "Just finished a great project on data science! 📊", time: "1 hour ago", likes: 8, comments: ["Great job!", "Impressive work!"], image: null },
+    ]
+        let posts = [...postsData];
+
+        function renderPosts() {
+            const postFeed = document.getElementById("post-feed");
+            postFeed.innerHTML = "";
+            posts.forEach((post, index) => {
+                const postCard = `
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card post-card">
+                            <div class="card-body">
+                                <h5 class="card-title">${post.name}</h5>
+                                <p class="card-text">${post.content}</p>
+                                ${post.image ? `<img src="${post.image}" class="post-image" alt="post">` : ""}
+                                <footer><small>${post.time}</small></footer>
+                                <button class="btn btn-outline-primary" onclick="handleLike(${index})">Like ${post.likes}</button>
+                                <input type="text" class="form-control my-2" placeholder="Add a comment..." onkeypress="handleComment(event, ${index})">
+                                <ul>
+                                    ${post.comments.map(comment => `<li>${comment}</li>`).join("")}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                postFeed.innerHTML += postCard;
+            });
+        }
+
+        function handleLike(index) {
+            posts[index].likes++;
+            renderPosts();
+        }
+
+        function handleComment(event, index) {
+            if (event.key === "Enter") {
+                posts[index].comments.push(event.target.value);
+                event.target.value = "";
+                renderPosts();
+            }
+        }
+        function searchAndHighlight() {
+    let searchText = document.getElementById("searchInput").value.trim();
+    if (!searchText) return;
+
+    let bodyText = document.body.innerHTML;
+    let regex = new RegExp(`(${searchText})`, "gi"); // Case-insensitive search
+    let match = bodyText.match(regex);
+
+    if (match) {
+        let range = document.createRange();
+        let selection = window.getSelection();
+        selection.removeAllRanges();
+
+        let walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+        while (walker.nextNode()) {
+            let node = walker.currentNode;
+            let index = node.nodeValue.toLowerCase().indexOf(searchText.toLowerCase());
+
+            if (index !== -1) {
+                range.setStart(node, index);
+                range.setEnd(node, index + searchText.length);
+                selection.addRange(range);
+                node.parentElement.scrollIntoView({ behavior: "smooth", block: "center" });
+                return;
+            }
+        }
+    } else {
+        alert("Text not found!");
+    }
+}
+
+        document.getElementById("postSubmit").addEventListener("click", function() {
+            const newPostContent = document.getElementById("newPostContent").value.trim();
+            const newPostImage = document.getElementById("imageUpload").files[0];
+            if (newPostContent) {
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                    posts.push({
+                        name: "User",
+                        content: newPostContent,
+                        time: "Just now",
+                        likes: 0,
+                        comments: [],
+                        image: reader.result
+                    });
+                    document.getElementById("newPostContent").value = "";
+                    document.getElementById("imageUpload").value = "";
+                    renderPosts();
+                };
+                if (newPostImage) reader.readAsDataURL(newPostImage);
+                else renderPosts();
+            }
+        });
+
+        // Initial render
+        renderPosts();
+
+        const predefinedAnswers = {
+            "What is Coniverse?": "Coniverse App is a verified, student-only social media platform enabling global networking, seamless event participation, and AI-driven career recommendations.",
+            "How can I participate in events?": "You can participate in events by browsing the Events section and registering for the ones that interest you.",
+            "What are AI-driven career recommendations?": "Our AI-driven career recommendations provide personalized job and internship suggestions based on your profile and interests.",
+            "How do I apply for internships or jobs?": "You can apply for internships or jobs directly through the Jobs Portal section in the app.",
+            "How does ID-based verification work?": "ID-based verification ensures that only verified students can join the platform, providing a secure and trusted environment."
+        };
+
+        function sendMessage() {
+            const input = document.getElementById("chatbot-input");
+            const message = input.value.trim();
+            if (message) {
+                const messagesContainer = document.getElementById("chatbot-messages");
+                const userMessage = document.createElement("div");
+                userMessage.textContent = `User: ${message}`;
+                messagesContainer.appendChild(userMessage);
+                input.value = "";
+
+                // Simulate bot response
+                setTimeout(() => {
+                    const botMessage = document.createElement("div");
+                    botMessage.textContent = `Bot: ${predefinedAnswers[message] || "I'm here to help! Please feel free to explore."}`;
+                    messagesContainer.appendChild(botMessage);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, 1000);
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

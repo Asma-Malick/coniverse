@@ -1,0 +1,72 @@
+/* General Styles */
+body {
+  background-color: #f3f3f3;
+  font-family: 'Arial', sans-serif;
+}
+
+.navbar {
+  background-color: #fff;
+  padding: 15px 0;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  color: #6a0dad;
+}
+
+.job-portal-section {
+  padding: 50px 0;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+h1 {
+  color: #6a0dad;
+}
+
+/* Job Listing Card */
+.job-card {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 20px;
+  transition: transform 0.3s;
+}
+
+.job-card:hover {
+  transform: scale(1.05);
+}
+
+.job-card h4 {
+  color: #6a0dad;
+}
+
+.job-card p {
+  color: #333;
+}
+
+.job-card button {
+  background-color: #6a0dad;
+  color: white;
+  border: none;
+}
+
+/* Modal Styling */
+.modal-body {
+  padding: 30px;
+}
+
+#applyModalLabel {
+  color: #6a0dad;
+}
+
+footer {
+  text-align: center;
+  margin-top: 50px;
+  padding: 20px;
+  background-color: #6a0dad;
+  color: white;
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coniverse - User Profile</title>
+    <link rel="stylesheet" href="profile.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+   <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="#"><b>CONIVERSE</b></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="home.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Clubs.html">Clubs</a>
+          </li>
+          <li class="nav-item disabled">
+            <a class="nav-link" href="Events.html">Events</a>
+          </li>
+          <li class="nav-item disabled">
+            <a class="nav-link" href="profile.html">Profile</a>
+          </li>
+          <li class="nav-item disabled">
+            <a class="nav-link" href="updates.html">Updates</a>
+          </li>
+          <li class="nav-item disabled">
+            <a class="nav-link" href="jobportal.html">Jobs Portal</a>
+          </li>
+        </ul>
+        <form class="d-flex ms-auto">
+          <!-- Bootstrap Search Bar -->
+          <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="button" onclick="searchAndHighlight()">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+    <!-- Profile Section -->
+    <section class="profile-section">
+        <div class="profile-container">
+            <!-- Profile Picture -->
+            <div class="profile-header">
+                <img src="profilepic.jpeg" alt="Profile Picture" class="profile-pic">
+                <button id="editProfileBtn" class="btn btn-primary">Edit Profile</button>
+            </div>
+
+            <!-- Profile Info -->
+            <div class="profile-info">
+                <div class="profile-detail">
+                    <h2 id="userName">John Doe</h2>
+                    <p id="userBio">This is a bio section. Add your personal bio here.</p>
+                    <p id="userEmail">john.doe@email.com</p>
+                </div>
+            </div>
+
+            <!-- Recent Posts -->
+            <div class="posts-section">
+                <h3>Recent Posts</h3>
+                <div class="posts-container" id="postsContainer">
+                    <!-- Dynamic posts will appear here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProfileForm">
+                        <div class="mb-3">
+                            <label for="newUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="newUsername">
+                        </div>
+                        <div class="mb-3">
+                            <label for="newBio" class="form-label">Bio</label>
+                            <textarea class="form-control" id="newBio"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="newEmail">
+                        </div>
+                        <div class="mb-3">
+                            <label for="newProfilePic" class="form-label">Profile Picture</label>
+                            <input type="file" class="form-control" id="newProfilePic">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Coniverse. All rights reserved.</p>
+    </footer>
+
+    <!-- External JS -->
+    <script src="profile.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
